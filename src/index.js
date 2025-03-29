@@ -1,17 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { createContext, useContext, useState } from "react";
+import ReactDOM from "react-dom/client";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// Create context
+const ContextName = createContext();
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+function Component1() {
+  const [name, setName] = useState("Bharathan");
+  const [age, setAge] = useState(25); // Another variable
+
+  return (
+    <ContextName.Provider value={{ name, age }}>
+      <h1>{`Hello ${name}!`}</h1>
+      <Component2 />
+    </ContextName.Provider>
+  );
+}
+
+function Component2() {
+  const { name, age } = useContext(ContextName); // Destructure values from context
+
+  return (
+    <>
+      <h1>{`Value of name is ${name}`}</h1>
+      <h2>{`Age is ${age}`}</h2>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<Component1 />);
